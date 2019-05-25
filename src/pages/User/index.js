@@ -20,7 +20,7 @@ export default class User extends Component {
         e.preventDefault();
         // console.log(this.state.newBox);
         const response = await api.post('users', {
-            name: this.state.newUser,
+            username: this.state.newUser,
             password: this.state.newPassword,
             email: this.state.newEmail
         });
