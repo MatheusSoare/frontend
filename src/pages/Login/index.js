@@ -9,11 +9,10 @@ import './styles.css';
 
 const CryptoJS = require('crypto-js');
 
-export default class User extends Component {
+export default class Login extends Component {
     state = {
         newUser: '',
         newPassword: '',
-        newEmail: ''
     };
 
 
@@ -30,17 +29,15 @@ export default class User extends Component {
         var result = hashName.toString(CryptoJS.enc.Hex);
         var result2 = hashPassword.toString(CryptoJS.enc.Hex);
 
-        console.log(result)
-        console.log(result2);
+        // const newUser = this.props.match.params.id;
 
-        // console.log(this.state.newBox);
-        const response = await api.post('users', {
-            username: result,
-            password: result2,
-            email: this.state.newEmail,
+        const response = await api.get(`login/`, (result));
+
+        this.setState({
+            newUser: response.data
         });
         console.log(response);
-        this.props.history.push(`/users/${response.data._id}`);
+        this.props.history.push(`/login/${response.data._id}`);
     };
 
     handleInputChange = (e) => {
@@ -52,12 +49,6 @@ export default class User extends Component {
     handleInputChangePassword = (e) => {
         this.setState({
             newPassword: e.target.value
-        })
-    }
-
-    handleInputChangeEmail = (e) => {
-        this.setState({
-            newEmail: e.target.value
         })
     }
 
