@@ -8,6 +8,8 @@ import './styles.css';
 // import { Container } from './styles';
 
 const CryptoJS = require('crypto-js');
+const NodeRSA = require('node-rsa');
+const key = new NodeRSA({b: 512});
 
 export default class User extends Component {
     state = {
@@ -25,19 +27,25 @@ export default class User extends Component {
         var password = document.getElementById("password");
         var email = document.getElementById("email");
 
-        var hashName = CryptoJS.SHA256(username.value);
-        var hashPassword = CryptoJS.SHA256(password.value);
-        var hashEmail = CryptoJS.SHA256(email.value);
+        var encryptedName = key.encrypt(username.value, 'base64');
+        var encryptedEmail = key.encrypt(email.value, 'base64');
 
-        var resultName = hashName.toString(CryptoJS.enc.Hex);
+        var hashPassword = CryptoJS.SHA256(email.value+password.value);
         var resultPassword = hashPassword.toString(CryptoJS.enc.Hex);
-        var resultEmail = hashEmail.toString(CryptoJS.enc.Hex);
+
+        var encryptedPass = key.encrypt(resultPassword, 'base64');
+
+        // var decrypted = key.decrypt(encrypted, 'utf8');
+
+        
+
+        
         
         // console.log(this.state.newBox);
         const response = await api.post('users', {
-            username: resultName,
-            password: resultPassword,
-            email: resultEmail,
+            username: encryptedName,
+            password: encryptedPass,
+            email: encryptedEmail,
         });
         console.log(response);
         this.props.history.push(`/users/${response.data._id}`);
