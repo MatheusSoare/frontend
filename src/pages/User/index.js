@@ -2,13 +2,10 @@ import React, {
     Component
 } from 'react';
 import api from '../../services/api';
-
+import {decryptRsaPrivateKey,decryptRsaPublicKey,encryptRsaPrivateKey,encryptRsaPublicKey} from '../../utils/criptografia';
 import './styles.css';
 // import { Container } from './styles';
 const CryptoJS = require('crypto-js');
-
-
-var crypto = require("crypto");
 
 
 const chavePr = `-----BEGIN RSA PRIVATE KEY-----
@@ -52,38 +49,10 @@ export default class User extends Component {
         var hashPassword = CryptoJS.SHA256(email.value+password.value);
         var resultPassword = hashPassword.toString(CryptoJS.enc.Hex);      
         
+        var usernameCripted = encryptRsaPrivateKey(username.value, chavePr);
+        console.log("user: ",usernameCripted);
 
 
-
-
-        //----------------------------------------->
-            // var encryptStringWithRsaPublicKey = function(toEncrypt, relativeOrAbsolutePathToPublicKey) {
-            // var absolutePath = path.resolve(relativeOrAbsolutePathToPublicKey);
-            var toEncrypt = username.value;
-            var publicKey = chavePu;
-            var buffer = Buffer.from(toEncrypt);
-            var encrypted = crypto.publicEncrypt(publicKey, buffer);
-            var encryptedPrivate = crypto.privateEncrypt(chavePr, buffer);
-            // return encrypted.toString("base64");
-            console.log("encrypted: ",encrypted.toString("base64"));
-            console.log("encryptedPrivate: ",encryptedPrivate.toString("base64"));
-            
-        // };
-
-        var privateKey = chavePr;
-        var buffer = Buffer.from(encrypted, "base64");
-        var decrypted = crypto.privateDecrypt(privateKey, buffer);
-        console.log("decryptedPrivate: ",decrypted.toString("utf8"));
-
-        var buffer2 = Buffer.from(encryptedPrivate, "base64");
-        var decryptedPublic = crypto.publicDecrypt(publicKey, buffer2);
-        console.log("decryptedPublic: ",decryptedPublic.toString("utf8"));
-
-
-
-        //<-----------------------------------------
-        
-        // console.log(this.state.newBox);
         const response = await api.post('users', {
             username: username.value,
             password: password.value,
