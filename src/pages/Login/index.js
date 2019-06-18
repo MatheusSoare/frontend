@@ -4,6 +4,8 @@ import React, {
 import api from '../../services/api';
 import sha256 from 'crypto-js/sha256';
 
+import cookie from '../../utils/cookie';
+
 import './styles.css';
 // import { Container } from './styles';
 
@@ -30,7 +32,7 @@ export default class Login extends Component {
         var result2 = hashPassword.toString(CryptoJS.enc.Hex);
 
         // const newUser = this.props.match.params.id;
-
+        
         const response = await api.get(`login/`, (result));
 
         this.setState({
