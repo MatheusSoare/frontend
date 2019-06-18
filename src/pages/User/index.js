@@ -4,10 +4,11 @@ import React, {
 import api from '../../services/api';
 
 import './styles.css';
-import {JSEncrypt} from 'jsencrypt';
 // import { Container } from './styles';
 const CryptoJS = require('crypto-js');
-const NodeRSA = require('node-rsa');
+
+
+var crypto = require("crypto");
 
 
 const chavePr = `-----BEGIN RSA PRIVATE KEY-----
@@ -48,29 +49,45 @@ export default class User extends Component {
         var password = document.getElementById("password");
         var email = document.getElementById("email");
 
-
-       
-        var encrypt = new JSEncrypt();
-        encrypt.setPublicKey(chavePu);
         var hashPassword = CryptoJS.SHA256(email.value+password.value);
-        var encryptedName = encrypt.encrypt(username.value, 'base64');
-        var encryptedEmail = encrypt.encrypt(email.value, 'base64');
         var resultPassword = hashPassword.toString(CryptoJS.enc.Hex);      
         
-        var encryptedPass = encrypt.encrypt(resultPassword, 'base64');
-        console.log("1->: ",resultPassword);
-        console.log("2->: ",encryptedPass);
-        
-        var decrypt = new JSEncrypt();
-        decrypt.setPrivateKey(chavePr);
-        var uncrypted = decrypt.decrypt(encryptedPass);
-        console.log("3->: ",uncrypted);
+
+
+
+
+        //----------------------------------------->
+            // var encryptStringWithRsaPublicKey = function(toEncrypt, relativeOrAbsolutePathToPublicKey) {
+            // var absolutePath = path.resolve(relativeOrAbsolutePathToPublicKey);
+            var toEncrypt = username.value;
+            var publicKey = chavePu;
+            var buffer = Buffer.from(toEncrypt);
+            var encrypted = crypto.publicEncrypt(publicKey, buffer);
+            var encryptedPrivate = crypto.privateEncrypt(chavePr, buffer);
+            // return encrypted.toString("base64");
+            console.log("encrypted: ",encrypted.toString("base64"));
+            console.log("encryptedPrivate: ",encryptedPrivate.toString("base64"));
+            
+        // };
+
+        var privateKey = chavePr;
+        var buffer = Buffer.from(encrypted, "base64");
+        var decrypted = crypto.privateDecrypt(privateKey, buffer);
+        console.log("decryptedPrivate: ",decrypted.toString("utf8"));
+
+        var buffer2 = Buffer.from(encryptedPrivate, "base64");
+        var decryptedPublic = crypto.publicDecrypt(publicKey, buffer2);
+        console.log("decryptedPublic: ",decryptedPublic.toString("utf8"));
+
+
+
+        //<-----------------------------------------
         
         // console.log(this.state.newBox);
         const response = await api.post('users', {
-            username: encryptedName,
-            password: encryptedPass,
-            email: encryptedEmail,
+            username: username.value,
+            password: password.value,
+            email: email.value,
         });
         console.log(response);
         this.props.history.push(`/users/${response.data._id}`);
