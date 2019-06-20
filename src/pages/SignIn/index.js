@@ -8,27 +8,27 @@ import './styles.css';
 const CryptoJS = require('crypto-js');
 
 
-const chavePr = `-----BEGIN RSA PRIVATE KEY-----
-MIICXQIBAAKBgQCvslv8UjnU9T3RG6WwJOTJ0EdSAFxMIT6N/eJ704Mh0CkksAD2
-hdspEJ5Qq07b6DPQcpI5zK1DQqC50vZMnP/hTZlUGbNxoF5JXgZn13ziUq9eL1AC
-ayLBOiywmogG/Icg78vOqmDvaURClMXjARsjHX4X9rWUTwhBguBzL12BMQIDAQAB
-AoGAVHE6uJikZu+/WCMbjP8OXtiVjpnRwl0v/XqKQc00dynevF1C+Tj4TlJIZKkQ
-66w8SvDlypXOqEb7jJQSAFxstgYPbwxtKYzcyX9yEbK3c/PvJbnBAQxZSvJU7AuG
-gt7rtvM/vPslGRYnYgn0Jia+/A8dbcgdd75/lcOdu3f9l2ECQQDirxCQR+m7gIHn
-0GezLFnIY5heegSkw0MAh2cWuqby0v0KZrZG85CFP8nuknVL1o7x9HADfVYzXv4Q
-cQOQO5ilAkEAxms8/LcNP/TkDWsg/KB0KVNypdoMbQhjZCdOz3LQuOEJnsLmqDvn
-okMd0lkTA5+/HW67ATBYBM/mQ3qLrhQUnQJBAIYGM6jam9r8U9IXafiJlFviZsgV
-JIG14PuDEvRhTyvqiymHKOYyQ5RE7sNbXHaGWOW9PC0UAc9FrrlR2GWClvECQEod
-hIphVfGt6AGbIpc62CkXopuQ91NC7t1aUXXrzUtBw/Yplz8AIWXa7CjGXPPdl+XG
-ltO62yXxAnHyNHqxxYECQQDHoSy3g7RmEkyBih3PTFChoo8djRn6b2HRPQuOAucK
-xfgxCerR3aTqfzw+BOmd2yvUm4OIJ1y50G1pLZQnXKWv
------END RSA PRIVATE KEY-----`;
-const chavePu = `-----BEGIN PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCvslv8UjnU9T3RG6WwJOTJ0EdS
-AFxMIT6N/eJ704Mh0CkksAD2hdspEJ5Qq07b6DPQcpI5zK1DQqC50vZMnP/hTZlU
-GbNxoF5JXgZn13ziUq9eL1ACayLBOiywmogG/Icg78vOqmDvaURClMXjARsjHX4X
-9rWUTwhBguBzL12BMQIDAQAB
------END PUBLIC KEY-----`;
+// const chavePr = `-----BEGIN RSA PRIVATE KEY-----
+// MIICXQIBAAKBgQCvslv8UjnU9T3RG6WwJOTJ0EdSAFxMIT6N/eJ704Mh0CkksAD2
+// hdspEJ5Qq07b6DPQcpI5zK1DQqC50vZMnP/hTZlUGbNxoF5JXgZn13ziUq9eL1AC
+// ayLBOiywmogG/Icg78vOqmDvaURClMXjARsjHX4X9rWUTwhBguBzL12BMQIDAQAB
+// AoGAVHE6uJikZu+/WCMbjP8OXtiVjpnRwl0v/XqKQc00dynevF1C+Tj4TlJIZKkQ
+// 66w8SvDlypXOqEb7jJQSAFxstgYPbwxtKYzcyX9yEbK3c/PvJbnBAQxZSvJU7AuG
+// gt7rtvM/vPslGRYnYgn0Jia+/A8dbcgdd75/lcOdu3f9l2ECQQDirxCQR+m7gIHn
+// 0GezLFnIY5heegSkw0MAh2cWuqby0v0KZrZG85CFP8nuknVL1o7x9HADfVYzXv4Q
+// cQOQO5ilAkEAxms8/LcNP/TkDWsg/KB0KVNypdoMbQhjZCdOz3LQuOEJnsLmqDvn
+// okMd0lkTA5+/HW67ATBYBM/mQ3qLrhQUnQJBAIYGM6jam9r8U9IXafiJlFviZsgV
+// JIG14PuDEvRhTyvqiymHKOYyQ5RE7sNbXHaGWOW9PC0UAc9FrrlR2GWClvECQEod
+// hIphVfGt6AGbIpc62CkXopuQ91NC7t1aUXXrzUtBw/Yplz8AIWXa7CjGXPPdl+XG
+// ltO62yXxAnHyNHqxxYECQQDHoSy3g7RmEkyBih3PTFChoo8djRn6b2HRPQuOAucK
+// xfgxCerR3aTqfzw+BOmd2yvUm4OIJ1y50G1pLZQnXKWv
+// -----END RSA PRIVATE KEY-----`;
+// const chavePu = `-----BEGIN PUBLIC KEY-----
+// MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCvslv8UjnU9T3RG6WwJOTJ0EdS
+// AFxMIT6N/eJ704Mh0CkksAD2hdspEJ5Qq07b6DPQcpI5zK1DQqC50vZMnP/hTZlU
+// GbNxoF5JXgZn13ziUq9eL1ACayLBOiywmogG/Icg78vOqmDvaURClMXjARsjHX4X
+// 9rWUTwhBguBzL12BMQIDAQAB
+// -----END PUBLIC KEY-----`;
 
 export default class SignIn extends Component {
     state = {
@@ -42,24 +42,18 @@ export default class SignIn extends Component {
     handleSubmit = async e => {
         e.preventDefault();
 
-        var username = document.getElementById("username");
-        var password = document.getElementById("password");
-        var email = document.getElementById("email");
+        const res = await api.get('/handshake');
+        const data = [{
+            username: document.getElementById("username").value,
+            password: CryptoJS.SHA256(document.getElementById("password").value).toString(CryptoJS.enc.Base64),
+            email: document.getElementById("email").value
+        }];
+        const privateKey = CryptoJS.SHA256(data.username + data.password).toString(CryptoJS.enc.Base64);
+        data[0].privateKey = privateKey;
 
-        var hashPassword = CryptoJS.SHA256(email.value+password.value);
-        var resultPassword = hashPassword.toString(CryptoJS.enc.Hex);      
-        
-        var usernameCripted = encryptRsaPrivateKey(username.value, chavePr);
-        console.log("user: ",usernameCripted);
-
-
-        const response = await api.post('users', {
-            username: username.value,
-            password: password.value,
-            email: email.value,
-        });
-        console.log(response);
-        this.props.history.push(`/user/${response.data._id}`);
+        const dataCiphered = CryptoJS.AES.encrypt(JSON.stringify(data), res.data.publicKey);
+        const response = await api.post('users', {data: dataCiphered.toString()});
+        this.props.history.push(`/`);
     };
 
     handleInputChange = (e) => {
